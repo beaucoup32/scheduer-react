@@ -6,7 +6,7 @@ export default function DayListItem(props) {
 
   
   const dayItemClass = classNames('day-list__item', {
-    "day-list__item--selected": props.selected,
+    "day-list__item--selected": (props.selected ? true: false),
     "day-list__item--full": (props.spots === 0 ? true: false),
   });
   
@@ -21,6 +21,7 @@ export default function DayListItem(props) {
 
   //   return `${props.spots} spots remaining`;
   // }
+  // console.log('Day List Item props:', props.selected);
 
   return (
     <li className={dayItemClass}
@@ -29,8 +30,8 @@ export default function DayListItem(props) {
        >
       <h2 className="text--regular">{props.name}</h2> 
       {props.spots === 0 && <h3 className="text--light">no spots remaining</h3>}
-      {props.spots === 1 && <h3 className="text--light">{props.spots} spot remaining</h3>}      
-      {props.spots > 1 && <h3 className="text--light">{props.spots} spots remaining</h3>}
+      {props.spots === 1 && <h3 className="text--light">{props.spots} spots remaining</h3>}      
+      {props.spots > 1 && <h3 className="text--light">{props.spots} remaining</h3>}
 
     </li>
   );
