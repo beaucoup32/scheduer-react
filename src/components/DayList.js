@@ -1,33 +1,24 @@
 import React from "react";
-import classNames from "classnames";
 import DayListItem from "./DayListItem";
 
 const DayList = function (props) {
-
-  // console.log('Day List props', props);
-
   const listItems = props.days.map((day) => {
     const data = {
-      key:day.id,
-      name:day.name,
-      spots:day.spots
-    };     
+      key: day.id,
+      name: day.name,
+      spots: day.spots,
+    };
 
     return (
-      <DayListItem 
-      {...data} 
-      selected={data.name === props.day}
-      setDay={props.setDay}
+      <DayListItem
+        {...data}
+        selected={data.name === props.value}
+        setDay={props.onChange}
       />
     );
-    
   });
 
-  return (
-  <ul>
-    {listItems }
-  </ul>
-  );
+  return <ul>{listItems}</ul>;
 };
 
 export default DayList;
