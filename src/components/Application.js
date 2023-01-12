@@ -35,11 +35,9 @@ export default function Application(props) {
     const interview = {...app.interview}
     // console.log('inter', interview);
     return (
-      < Application 
+      < Appointment 
       key={app.id}
-      id={app.id}
-      time={app.time}
-      interview={interview}
+      {...app}
       />
     );
   });
@@ -68,8 +66,11 @@ export default function Application(props) {
         />{" "}
       </section>
       <section className="schedule">
-        {/* {listItems[0]} */}
+     
+
+        {listItems}
         <Appointment key="last" time="5pm" />
+       
       </section>
     </main>
   );
