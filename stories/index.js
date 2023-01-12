@@ -1,4 +1,4 @@
-import React from "react";
+import React, {Fragment} from "react";
 
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
@@ -8,8 +8,17 @@ import "index.scss";
 import Button from "components/Button";
 import DayListItem from "components/DayListItem";
 import DayList from "components/DayList";
-import InterviewerList from 'components/InterviewerList';
+import InterviewerList from "components/InterviewerList";
 import InterviewerListItem from "components/InterviewerListItem";
+
+import Appointment from "components/Appointment/index";
+import Header from "components/Appointment/Header";
+import Empty from "components/Appointment/Empty";
+import Show from "components/Appointment/Show";
+import Confirm from "components/Appointment/Confirm";
+import Status from "components/Appointment/Status";
+import Error from "components/Appointment/Error";
+import Form from "components/Appointment/Form";
 
 // buttons
 storiesOf("Button", module)
@@ -118,18 +127,11 @@ const interviewers = [
 
 storiesOf("InterviewerList", module)
   .addParameters({
-    backgrounds: [{ name: "dark", value: "#222f3e", default: true }]
+    backgrounds: [{ name: "dark", value: "#222f3e", default: true }],
   })
-  .add("Initial", () => (
-    <InterviewerList
-      interviewers={interviewers}
-    />
-  ))
+  .add("Initial", () => <InterviewerList interviewers={interviewers} />)
   .add("Selected", () => (
-    <InterviewerList
-      interviewers={interviewers}
-      value={3}
-    />
+    <InterviewerList interviewers={interviewers} value={3} />
   ))
   .add("Clickable", () => (
     <InterviewerList
@@ -137,3 +139,66 @@ storiesOf("InterviewerList", module)
       onChange={action("setInterviewer")}
     />
   ));
+
+storiesOf("Appointment", module)
+  .addParameters({
+    backgrounds: [{ name: "white", value: "#fff", default: true }],
+  })
+  .add("Appointment", () => <Appointment />)
+  .add("Appointment with Time", () => <Appointment time={"12pm"} />)
+  .add("Header", () => <Header time={"12 pm"} />)
+  .add("Empty", () => <Empty onAdd={action("onAdd")} />)
+  .add("Show", () => (
+    <Show 
+      student={'Lydia Miller-Jones'}
+      interviewer={interviewer}
+      onEdit={action("onEdit")} 
+      onDelete={action("onDelete")}
+    />
+  ))
+  .add('Confirm', () => (
+    <Confirm
+      message={'Are you sure you want to delete appointment?'}
+      onConfirm={action('onConfirm')}
+      onCancel={action('onCancel')}
+    />
+  ))
+  .add('Status', () => <Status message={'Deleteing...'}/>)
+  .add('Error', () => (
+    <Error 
+      message={'You broke something... 😐'}
+      onClose={action('onClose')}
+    />
+  ))
+  .add('Create Form', () => (
+    <Form
+      interviewers={interviewers}
+      onSave={action('onSave')}
+      onCancel={action('onCancel')}
+    />
+  ))
+  .add('Edit Form', () => (
+    <Form
+      student={'Snoop Dogg'}
+      interviewer={1}
+      interviewers={interviewers}
+      onSave={action('onSave')}
+      onCancel={action('onCancel')}
+    />
+  ))
+  .add("Appointment Empty", () => (
+    <Fragment>
+      <Appointment id={1} time="4pm" />
+      <Appointment time="5pm" />
+    </Fragment>
+  ))
+  .add("Appointment Booked", () => (
+    <Fragment>
+      <Appointment
+        id={1}
+        time="4pm"
+        interview={{ student: "Lydia Miller-Jones", interviewer }}
+      />
+      <Appointment time="5pm" />
+    </Fragment>
+  ))

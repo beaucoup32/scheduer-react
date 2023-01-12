@@ -9,6 +9,7 @@ const DayList = function (props) {
       spots: day.spots,
     };
 
+    // console.log('daylist ', props)
     return (
       <DayListItem
         {...data}
