@@ -1,4 +1,3 @@
-
 export const getAppointmentsForDay = (state, day) => {
   if (state.days.length === 0) {
     return [];
@@ -22,6 +21,7 @@ export const getAppointmentsForDay = (state, day) => {
         return true;
       }
     }
+    return false;
   });
 
   const formatted = select.map((item) => {
@@ -30,3 +30,50 @@ export const getAppointmentsForDay = (state, day) => {
 
   return formatted;
 };
+
+
+export const getInterview = (state, interview) => {
+  if (interview === null) {
+    return null;
+  }
+  
+  for (let interviewer in state.interviewers) {
+    if (interview.interviewer === Number(interviewer)) {
+      const appointment = {
+        ...interview,
+        interviewer: { ...state.interviewers[interviewer] },
+      };
+      return appointment;
+    }
+  }
+  return null;
+};
+
+export const getInterviewersForDay = (state, day) => {
+  if (state.days.length === 0) {
+    return [];
+  }
+
+  if (!day) {
+    return [];
+  }
+
+  const interArr = Object.values(state.interviewers);
+
+  const filteredDays = state.days.filter((da) => da.name === day);
+
+  if (filteredDays.length === 0) {
+    return [];
+  }
+
+  const select = interArr.filter((interviewer) => {
+    for (let app of [...filteredDays[0].interviewers]) {
+      if (interviewer.id === app) {
+        return true;
+      }
+    }
+    return false;
+  });
+
+  return select;
+}
