@@ -75,5 +75,14 @@ export const getInterviewersForDay = (state, day) => {
     return false;
   });
 
+  
+  // const formatted = select.map((item) => {
+  //   console.log('format item', item);
+
+  //   const newObj = {[item.id]: {...item}}
+  //   return newObj
+  // })
+  
+
   return select;
 }

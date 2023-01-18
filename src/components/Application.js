@@ -1,47 +1,37 @@
 import React from "react";
-import { useState, useEffect } from "react";
-import axios from 'axios';
 import "components/Application.scss";
 import Appointment from "components/Appointment/index";
-import {getAppointmentsForDay, getInterview, getInterviewersForDay} from "../helpers/selectors"
+import {
+  getAppointmentsForDay,
+  getInterview,
+  getInterviewersForDay,
+} from "../helpers/selectors";
 import DayList from "./DayList";
+import useApplicationData from "hooks/useApplicationData"
 
 export default function Application(props) {
-  
-  const [state, setState] = useState({
-    day: "Monday",
-    days: [],
-    appointments: {},
-    interviewers: {}
-  });
-  const dailyAppointments = getAppointmentsForDay(state , state.day);
-  const setDay = day => setState({ ...state, day });
-  // const setDays = days => setState(prev => ({ ...prev, days }));
-  
-  
-  const listItems = dailyAppointments.map((app) => {
-    const interviewers = getInterviewersForDay(state, state.day)
-    console.log('app', app);
-    const interview = getInterview(state, app.interview);
-    return <Appointment key={app.id} {...app} interview={interview} interviewers={interviewers} />;
-  });
-  
-  useEffect(() => {
-    Promise.all([
-      axios.get('/api/days'),
-      axios.get('/api/appointments'),
-      axios.get('/api/interviewers')
-    ])
-    .then((all) => {
-      console.log(all[2].data);
-      setState(prev => ({
-        ...prev,
-        days: all[0].data,
-        appointments: all[1].data,
-        interviewers: all[2].data
-      }))
-    })
-  }, []);
+
+  const {
+    state,
+    setDay,
+    bookInterview,
+    cancelInterview
+  } = useApplicationData();
+
+  const interviewers = getInterviewersForDay(state, state.day);
+
+  const appointments = getAppointmentsForDay(state, state.day).map((appointment) => {
+    return (
+      <Appointment
+        key={appointment.id}
+        {...appointment}
+        interview={getInterview(state, appointment.interview)}
+        interviewers={interviewers}
+        bookInterview={bookInterview}
+        cancelInterview={cancelInterview}
+      />
+    );
+  })
 
   return (
     <main className="layout">
@@ -62,7 +52,7 @@ export default function Application(props) {
         />{" "}
       </section>
       <section className="schedule">
-        {listItems}
+        {appointments}
         <Appointment key="last" time="5pm" />
       </section>
     </main>

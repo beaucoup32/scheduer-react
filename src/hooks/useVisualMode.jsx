@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 const useVisualMode = function (initial) {
   const [mode, setMode] = useState(initial);
@@ -9,8 +9,9 @@ const useVisualMode = function (initial) {
     setHistory([...history, mode]);
 
     if (replace === true) {
-      const newHist = history.pop();
-      setHistory([...history, mode]);
+      const newHist = history;
+      newHist.pop();
+      setHistory((prev) => [...prev, mode]);
     }
 
     return setMode(mode);
@@ -21,10 +22,11 @@ const useVisualMode = function (initial) {
       return;
     }
 
-    const newHist = history.pop();
-    setHistory(history);
+    const newHist = history;
+    newHist.pop()
+    setHistory(newHist);
 
-    return setMode(history[history.length - 1]);
+    return setMode(newHist[newHist.length - 1]);
   };
 
   return { mode, transition, back };

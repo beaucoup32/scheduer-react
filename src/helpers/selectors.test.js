@@ -10,13 +10,13 @@ const state = {
       id: 1,
       name: "Monday",
       appointments: [1, 2, 3],
-      interviewers: [2,3,1]
+      interviewers: [2, 3, 1],
     },
     {
       id: 2,
       name: "Tuesday",
       appointments: [4, 5],
-      interviewers: [1,3]
+      interviewers: [1, 3],
     },
   ],
   appointments: {
@@ -48,8 +48,8 @@ const state = {
     3: {
       id: 3,
       name: "Mildred Nazir",
-      avatar: "https://i.imgur.com/T2WwVfS.png"
-      },
+      avatar: "https://i.imgur.com/T2WwVfS.png",
+    },
   },
 };
 
