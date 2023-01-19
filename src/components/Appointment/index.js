@@ -34,32 +34,23 @@ const Appointment = (props) => {
 
     return props
       .bookInterview(props.id, interview)
-      .then(() => {
-        transition(SHOW);
-      })
-      .catch((err) => {
-        transition(ERROR_SAVE, true);
-        return err.message;
-      });
+      .then(() => transition(SHOW))
+      .catch((error) => transition(ERROR_SAVE));
   };
 
-  const deleteInterview = () => {
-    transition(DELETING, true);
+  const deleteInterview = (event) => {
+
+    transition(DELETING);
 
     return props
       .cancelInterview(props.id)
-      .then(() => {
-        transition(EMPTY);
-      })
-      .catch((err) => {
-        transition(ERROR_DELETE, true);
-        return err.message;
-      });
+      .then(() => transition(EMPTY))
+      .catch(() => transition(ERROR_DELETE, true));
   };
 
   // console.log('props', props);
   return (
-    <article className="appointment">
+    <article data-testid="appointment" className="appointment">
       <Header time={props.time} />
       {mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
       {mode === SHOW && props?.interview && (
@@ -73,7 +64,7 @@ const Appointment = (props) => {
       {mode === CREATE && (
         <Form
           interviewers={props.interviewers}
-          onCancel={() => back()}
+          onCancel={back}
           onSave={save}
         />
       )}
@@ -81,9 +72,8 @@ const Appointment = (props) => {
         <Form
           interviewers={props.interviewers}
           student={props.interview?.student ?? ""}
-          interviewer={props.interview.interviewer}
-          selected={props.interview.interviewer}
-          onCancel={() => back()}
+          interviewer={props.interview.interviewer.id}
+          onCancel={back}
           onSave={save}
         />
       )}
@@ -92,12 +82,16 @@ const Appointment = (props) => {
       {mode === CONFIRM && (
         <Confirm
           message={"Are you sure you want to cancel interview?"}
-          onCancel={() => back()}
+          onCancel={back}
           onConfirm={deleteInterview}
         />
       )}
-      {mode === ERROR_SAVE && <Error message={save} />}
-      {mode === ERROR_DELETE && <Error message={deleteInterview} />}
+      {mode === ERROR_SAVE && (
+        <Error onClose={back} message={"Could not save interview"} />
+      )}
+      {mode === ERROR_DELETE && (
+        <Error onClose={back} message={"Could not delete interview"} />
+      )}
     </article>
   );
 };

@@ -11,7 +11,7 @@ const useVisualMode = function (initial) {
     if (replace === true) {
       const newHist = history;
       newHist.pop();
-      setHistory((prev) => [...prev, mode]);
+      setHistory([...newHist, mode]);
     }
 
     return setMode(mode);

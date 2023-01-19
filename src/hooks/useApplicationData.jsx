@@ -24,7 +24,7 @@ const useApplicationData = () => {
         appointments: all[1].data,
         interviewers: all[2].data,
       }));
-    });
+    }).catch((err) => console.log(err))
   }, []);
 
   const bookInterview = (id, interview) => {
@@ -44,8 +44,6 @@ const useApplicationData = () => {
         const days = updateSpots(state, appointments)
         return setState(history => ({...history, appointments, days}));
       })
-      .catch((err) => console.log(err))
-
   };
 
   const cancelInterview = (id) => {
@@ -65,7 +63,6 @@ const useApplicationData = () => {
         const days = updateSpots(state, appointments)
         return setState(prev => ({...prev, appointments, days}))
       })
-      .catch((err) => console.log(err))
   }
 
 

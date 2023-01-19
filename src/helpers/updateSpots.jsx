@@ -1,7 +1,5 @@
-
 const updateSpots = (state, appointments) => {
-
-  const dayObj = state.days.find(day => day.name === state.day);
+  const dayObj = state.days.find((day) => day.name === state.day);
 
   // count null apps
   let spots = 0;
@@ -12,11 +10,9 @@ const updateSpots = (state, appointments) => {
     }
   }
 
-  const day = {...dayObj, spots}
+  const day = { ...dayObj, spots };
 
-  return (
-    state.days.map(d => d.name === state.day ? day : d)
-  )
-}
+  return state.days.map((d) => (d.name === state.day ? day : d));
+};
 
 export default updateSpots;
