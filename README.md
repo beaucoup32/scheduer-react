@@ -1,4 +1,6 @@
 # Interview Scheduler
+!["screenshot of main page"](https://github.com/beaucoup32/scheduler-react/blob/master/docs/desktop_appointents.png)
+!["screenshot of mobile view"](https://github.com/beaucoup32/scheduler-react/blob/master/docs/mobile_view.png)
 
 ## Setup
 
