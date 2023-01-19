@@ -48,7 +48,6 @@ const Appointment = (props) => {
       .catch(() => transition(ERROR_DELETE, true));
   };
 
-  // console.log('props', props);
   return (
     <article data-testid="appointment" className="appointment">
       <Header time={props.time} />

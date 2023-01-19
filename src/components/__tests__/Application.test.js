@@ -131,28 +131,28 @@ describe("Application", () => {
 
   it("shows an error when failing to save appointment",  async () => {
     const { container, debug } = render(<Application />);
-
+    
     await waitForElement(() => getByText(container, "Archie Cohen"));
-
+    
     const appointments = getAllByTestId(container, "appointment");
     const appointment = appointments[0];
-
+    
     fireEvent.click(getByAltText(appointment, "Add"));
-
+    
     fireEvent.change(getByPlaceholderText(appointment, /enter student name/i), {
       target: { value: "Lydia Miller-Jones" },
     });
-
+    
     
     fireEvent.click(getByAltText(appointment, "Sylvia Palmer"));
+    axios.put.mockRejectedValueOnce();
     
     fireEvent.click(getByText(appointment, "Save"));
     expect(getByText(appointment, "Saving ...")).toBeInTheDocument();
-    // axios.put.mockRejectedValueOnce();
 
 
-    await waitForElement(() => getByText(appointment, "Lydia Miller-Jones"));
-    expect(getByText(appointment, "Lydia Miller-Jones")).toBeInTheDocument();
+    await waitForElement(() => getByText(appointment, "Could not save interview"));
+    expect(getByText(appointment, "Could not save interview")).toBeInTheDocument();
 
     debug();
   })
